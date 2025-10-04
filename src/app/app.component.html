@@ -1,0 +1,302 @@
+<div class="app-container">
+  <header class="app-header">
+    <h1>🏆 Super Atleta - Plataforma de Scouting</h1>
+    <p>Sistema profissional de avaliação de atletas</p>
+  </header>
+
+  <main class="app-main">
+    <!-- BUSCA -->
+    <div class="search-section">
+      <div class="search-container">
+        <div class="search-icon">🔍</div>
+        <input 
+          type="text" 
+          class="search-input" 
+          placeholder="Buscar atleta por nome, clube ou posição..."
+          [(ngModel)]="searchTerm"
+          (input)="onSearch()">
+        
+        <div class="search-results" *ngIf="searchTerm && filteredPlayers.length > 0">
+          <div 
+            *ngFor="let player of filteredPlayers" 
+            class="result-item"
+            (click)="selectPlayer(player)">
+            <strong>{{ player.name }}</strong> - {{ player.position }} - {{ player.currentClub }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTÕES -->
+    <div class="navigation-section">
+      <div class="nav-buttons">
+        <button class="nav-button">
+          <span class="nav-icon">⚽</span>
+          <span class="nav-text">Catálogo de Atletas</span>
+        </button>
+        <button class="nav-button">
+          <span class="nav-icon">📊</span>
+          <span class="nav-text">Dashboard Analítico</span>
+        </button>
+        <button class="nav-button">
+          <span class="nav-icon">👥</span>
+          <span class="nav-text">Quem Somos</span>
+        </button>
+        <button class="nav-button">
+          <span class="nav-icon">📞</span>
+          <span class="nav-text">Contato</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- CARROSSEL COM 9 SLIDES (SEM RAFINHA E SEM FLAMENGO) -->
+    <div class="carousel-section">
+      <div class="carousel">
+        <div class="carousel-slides">
+          
+          <!-- Slide 0 - PRODUTO -->
+          <div class="carousel-slide" [class.active]="currentSlide === 0">
+            <div class="slide-background product-bg"></div>
+            <div class="slide-content">
+              <div class="player-card premium-card">
+                <div class="centered-hero">
+                  <h2 class="hero-title">🔍 A Melhor Ferramenta de Análise Futebolística do Mercado</h2>
+                  
+                  <div class="features-grid-2x2">
+                    <div class="feature-card premium-feature">
+                      <span class="feature-card-icon">📊</span>
+                      <div class="feature-card-content">
+                        <strong class="feature-card-title">Dashboard Analítico</strong>
+                        <span class="feature-card-desc">Dados em tempo real e métricas avançadas</span>
+                      </div>
+                    </div>
+                    
+                    <div class="feature-card premium-feature">
+                      <span class="feature-card-icon">⚔️</span>
+                      <div class="feature-card-content">
+                        <strong class="feature-card-title">Comparação Side-by-Side</strong>
+                        <span class="feature-card-desc">Analise atletas lado a lado</span>
+                      </div>
+                    </div>
+                    
+                    <div class="feature-card premium-feature">
+                      <span class="feature-card-icon">📈</span>
+                      <div class="feature-card-content">
+                        <strong class="feature-card-title">Relatórios Personalizados</strong>
+                        <span class="feature-card-desc">Gere insights sob medida para seu clube</span>
+                      </div>
+                    </div>
+                    
+                    <div class="feature-card premium-feature">
+                      <span class="feature-card-icon">🚨</span>
+                      <div class="feature-card-content">
+                        <strong class="feature-card-title">Alertas Inteligentes</strong>
+                        <span class="feature-card-desc">Descubra talentos antes da concorrência</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Slide 1 - DEMBÉLÉ -->
+          <div class="carousel-slide" [class.active]="currentSlide === 1">
+            <div class="slide-background dembele-bg"></div>
+            <div class="slide-content">
+              <div class="player-card premium-card">
+                <div class="trophy-badge">🏆</div>
+                <div class="player-name-container">
+                  <span class="player-icon">⭐</span>
+                  <h3 class="player-name">
+                    <span class="first-name">Ousmane</span>
+                    <span class="last-name">Dembélé</span>
+                  </h3>
+                </div>
+                <p class="player-position">Atacante - PSG | Melhor Jogador do Mundo 2025</p>
+                <div class="player-stats">
+                  <span>26 anos</span>
+                  <span>Francês</span>
+                  <span>€80M</span>
+                </div>
+                <p class="player-description">Eleito o melhor do mundo - Ballon d'Or 2025</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Slide 2 - VINICIUS JR -->
+          <div class="carousel-slide" [class.active]="currentSlide === 2">
+            <div class="slide-background"></div>
+            <div class="slide-content">
+              <div class="player-card premium-card">
+                <div class="player-name-container">
+                  <span class="player-icon">⭐</span>
+                  <h3 class="player-name">
+                    <span class="first-name">Vinicius</span>
+                    <span class="last-name">Junior</span>
+                  </h3>
+                </div>
+                <p class="player-position">Atacante - Real Madrid</p>
+                <div class="player-stats">
+                  <span>23 anos</span>
+                  <span>Brasileiro</span>
+                  <span>€150M</span>
+                </div>
+                <p class="player-description">Estrela consolidada no futebol mundial</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Slide 3 - LAMINE YAMAL -->
+          <div class="carousel-slide" [class.active]="currentSlide === 3">
+            <div class="slide-background"></div>
+            <div class="player-image" style="background-image: url('criativo-6730f207042a4img-2024-11-106730f207042a66730f207042a7.jpeg')"></div>
+            <div class="slide-content">
+              <div class="player-card premium-card">
+                <div class="player-name-container">
+                  <span class="player-icon">🌟</span>
+                  <h3 class="player-name">
+                    <span class="first-name">Lamine</span>
+                    <span class="last-name">Yamal</span>
+                  </h3>
+                </div>
+                <p class="player-position">Atacante - Barcelona</p>
+                <div class="player-stats">
+                  <span>17 anos</span>
+                  <span>Espanhol</span>
+                  <span>€75M</span>
+                </div>
+                <p class="player-description">Jovem revelação em ascensão</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Slide 4 - ERLING HAALAND -->
+          <div class="carousel-slide" [class.active]="currentSlide === 4">
+            <div class="slide-background"></div>
+            <div class="slide-content">
+              <div class="player-card premium-card">
+                <div class="player-name-container">
+                  <span class="player-icon">💪</span>
+                  <h3 class="player-name">
+                    <span class="first-name">Erling</span>
+                    <span class="last-name">Haaland</span>
+                  </h3>
+                </div>
+                <p class="player-position">Atacante - Manchester City</p>
+                <div class="player-stats">
+                  <span>23 anos</span>
+                  <span>Norueguês</span>
+                  <span>€180M</span>
+                </div>
+                <p class="player-description">Máquina de gols do futebol europeu</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 5 - LEWANDOWSKI -->
+          <div class="carousel-slide" [class.active]="currentSlide === 5">
+            <div class="slide-background"></div>
+            <div class="slide-content">
+              <div class="player-card premium-card">
+                <div class="player-name-container">
+                  <span class="player-icon">⚽</span>
+                  <h3 class="player-name">
+                    <span class="first-name">Robert</span>
+                    <span class="last-name">Lewandowski</span>
+                  </h3>
+                </div>
+                <p class="player-position">Centro-Avante - Barcelona</p>
+                <div class="player-stats">
+                  <span>35 anos</span>
+                  <span>Polonês</span>
+                  <span>€30M</span>
+                </div>
+                <p class="player-description">Artilheiro experiente e decisivo</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 6 - HARRY KANE -->
+          <div class="carousel-slide" [class.active]="currentSlide === 6">
+            <div class="slide-background"></div>
+            <div class="slide-content">
+              <div class="player-card premium-card">
+                <div class="player-name-container">
+                  <span class="player-icon">👑</span>
+                  <h3 class="player-name">
+                    <span class="first-name">Harry</span>
+                    <span class="last-name">Kane</span>
+                  </h3>
+                </div>
+                <p class="player-position">Centro-Avante - Bayern de Munique</p>
+                <div class="player-stats">
+                  <span>30 anos</span>
+                  <span>Inglês</span>
+                  <span>€90M</span>
+                </div>
+                <p class="player-description">Artilheiro completo e líder</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 7 - MBAPPÉ (NOVO) -->
+          <div class="carousel-slide" [class.active]="currentSlide === 7">
+            <div class="slide-background"></div>
+            <div class="slide-content">
+              <div class="player-card premium-card">
+                <div class="player-name-container">
+                  <span class="player-icon">⚡</span>
+                  <h3 class="player-name">
+                    <span class="first-name">Kylian</span>
+                    <span class="last-name">Mbappé</span>
+                  </h3>
+                </div>
+                <p class="player-position">Atacante - Real Madrid</p>
+                <div class="player-stats">
+                  <span>25 anos</span>
+                  <span>Francês</span>
+                  <span>€180M</span>
+                </div>
+                <p class="player-description">Velocidade pura e finalização precisa</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 8 - ARSENAL (NOVO DEPOIMENTO) -->
+          <div class="carousel-slide" [class.active]="currentSlide === 8">
+            <div class="slide-background"></div>
+            <div class="slide-content">
+              <div class="player-card premium-card testimonial-card-standard">
+                <div class="club-badge">🔴⚪</div>
+                <h3 class="testimonial-title">Arsenal - Premier League</h3>
+                <p class="testimonial-text">"A ferramenta de scouting mais precisa que já utilizamos em nossa história."</p>
+                <p class="testimonial-author">- Diretor de Desenvolvimento</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        
+        <!-- CONTROLES DO CARROSSEL -->
+        <button class="carousel-prev" (click)="prevSlide()">‹</button>
+        <button class="carousel-next" (click)="nextSlide()">›</button>
+        
+        <!-- INDICADORES ATUALIZADOS -->
+        <div class="carousel-indicators">
+          <span *ngFor="let i of [0,1,2,3,4,5,6,7,8]" 
+                class="indicator" 
+                [class.active]="currentSlide === i" 
+                (click)="goToSlide(i)"></span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  
+  
+
+
+
+  
+</div>
