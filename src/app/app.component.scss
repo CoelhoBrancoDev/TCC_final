@@ -493,31 +493,31 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
-.carousel-slide:nth-child(6) .player-card { /* RAFINHA */
+.carousel-slide:nth-child(6) .player-card { /* LEWANDOWSKI */
   border-color: #a50044 !important;
   box-shadow: 
     0 20px 50px rgba(165, 0, 68, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
-.carousel-slide:nth-child(7) .player-card { /* FLAMENGO */
-  border-color: #CC0000 !important;
-  box-shadow: 
-    0 20px 50px rgba(204, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-}
-
-.carousel-slide:nth-child(8) .player-card { /* LEWANDOWSKI */
-  border-color: #a50044 !important;
-  box-shadow: 
-    0 20px 50px rgba(165, 0, 68, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-}
-
-.carousel-slide:nth-child(9) .player-card { /* HARRY KANE */
+.carousel-slide:nth-child(7) .player-card { /* HARRY KANE */
   border-color: #DC052D !important;
   box-shadow: 
     0 20px 50px rgba(220, 5, 45, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+.carousel-slide:nth-child(8) .player-card { /* MBAPPÉ */
+  border-color: #004d98 !important;
+  box-shadow: 
+    0 20px 50px rgba(0, 77, 152, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+.carousel-slide:nth-child(9) .player-card { /* ARSENAL */
+  border-color: #EF0107 !important;
+  box-shadow: 
+    0 20px 50px rgba(239, 1, 7, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
@@ -691,11 +691,11 @@
 }
 
 .carousel-slide:nth-child(8) .slide-background {
-  background: linear-gradient(45deg, #004d98 0%, #a50044 100%) !important;
+  background: linear-gradient(45deg, #004d98 0%, #ffffff 100%) !important;
 }
 
 .carousel-slide:nth-child(9) .slide-background {
-  background: linear-gradient(45deg, #DC052D 0%, #0066B2 100%) !important;
+  background: linear-gradient(45deg, #EF0107 0%, #063672 100%) !important;
 }
 
 /* ESTILOS PARA IMAGEM DO JOGADOR */
@@ -711,10 +711,66 @@
   border-left: 3px solid rgba(231, 76, 60, 0.3);
 }
 
-/* ESPAÇO PARA FOOTER FUTURO */
-.app-footer-space {
-  height: clamp(30px, 6vh, 50px);
+/* FOOTER - NOVO E MINIMALISTA */
+.app-footer {
+  background: rgba(10, 31, 10, 0.95); /* Verde harmonizado */
+  padding: clamp(15px, 3vh, 20px) clamp(15px, 3vw, 20px);
+  text-align: center;
+  border-top: 2px solid #e74c3c; /* Borda vermelha padrão */
   flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: auto;
+}
+
+.footer-content {
+  max-width: min(600px, 90vw);
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ÍCONES SOCIAIS - DISTRIBUÍDOS */
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: clamp(20px, 4vw, 30px);
+  margin-bottom: clamp(12px, 2.5vh, 15px);
+  flex-wrap: wrap;
+}
+
+.social-icon {
+  width: clamp(32px, 6vw, 40px);
+  height: clamp(32px, 6vw, 40px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: clamp(6px, 1.2vh, 8px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.social-icon:hover {
+  transform: translateY(-2px);
+  background: rgba(231, 76, 60, 0.1);
+}
+
+.social-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: #fff; /* Cor branca padrão */
+  transition: fill 0.3s ease;
+}
+
+.social-icon:hover svg {
+  fill: #e74c3c; /* Cor vermelha no hover */
+}
+
+/* COPYRIGHT CENTRALIZADO */
+.footer-copyright {
+  color: #bdc3c7;
+  font-size: clamp(0.8em, 1.8vw, 0.9em);
+  margin: 0;
+  line-height: 1.4;
+  text-align: center;
 }
 
 /* RESPONSIVIDADE AVANÇADA */
@@ -770,6 +826,10 @@
   .player-name-container {
     gap: 8px;
   }
+
+  .footer-social {
+    gap: clamp(15px, 3vw, 25px);
+  }
 }
 
 @media (max-width: 480px) {
@@ -816,6 +876,16 @@
   .last-name {
     font-size: clamp(1.6em, 3.5vw, 1.8em);
   }
+
+  .footer-social {
+    gap: clamp(12px, 2.5vw, 20px);
+  }
+
+  .social-icon {
+    width: clamp(28px, 5vw, 36px);
+    height: clamp(28px, 5vw, 36px);
+    padding: clamp(4px, 1vh, 6px);
+  }
 }
 
 @media (max-width: 360px) {
@@ -831,32 +901,14 @@
   .carousel-slide:nth-child(1) .player-card {
     min-height: 240px !important;
   }
+
+  .footer-social {
+    gap: 10px;
+  }
+
+  .social-icon {
+    width: 26px;
+    height: 26px;
+    padding: 4px;
+  }
 }
-
-/* ADICIONE ISSO NO FINAL DO SEU CSS */
-
-/* CORES PARA OS NOVOS SLIDES */
-.carousel-slide:nth-child(8) .player-card { /* MBAPPÉ */
-  border-color: #004d98 !important;
-  box-shadow: 
-    0 20px 50px rgba(0, 77, 152, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-}
-
-.carousel-slide:nth-child(9) .player-card { /* ARSENAL */
-  border-color: #EF0107 !important;
-  box-shadow: 
-    0 20px 50px rgba(239, 1, 7, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-}
-
-/* BACKGROUNDS PARA OS NOVOS SLIDES */
-.carousel-slide:nth-child(8) .slide-background {
-  background: linear-gradient(45deg, #004d98 0%, #ffffff 100%) !important;
-}
-
-.carousel-slide:nth-child(9) .slide-background {
-  background: linear-gradient(45deg, #EF0107 0%, #063672 100%) !important;
-}
-
-

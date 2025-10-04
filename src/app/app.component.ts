@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   
   // Variáveis para o carrossel - ATUALIZADO
   currentSlide = 0;
-  totalSlides = 9; // Aumentado para 7 slides
+  totalSlides = 9; // Aumentado para 9 slides
   private carouselInterval: any;
 
   // Dados mockados para a busca - 10 JOGADORES!
