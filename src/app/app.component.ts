@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule, Router, RouterOutlet } from '@angular/router';
 
 interface ClubHistory {
   club: string;
@@ -21,6 +22,7 @@ interface Player {
   weight: number;
   preferredFoot: string;
   marketValue: number;
+  shirtNumber: number;
   clubHistory: ClubHistory[];
 }
 
@@ -29,33 +31,36 @@ interface Player {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, RouterModule, RouterOutlet]
 })
 export class AppComponent implements OnInit, OnDestroy {
   searchTerm: string = '';
   filteredPlayers: Player[] = [];
   
-  // Variáveis para o carrossel - ATUALIZADO
+  // Variáveis para o carrossel
   currentSlide = 0;
-  totalSlides = 9; // Aumentado para 9 slides
+  totalSlides = 9;
   private carouselInterval: any;
 
-  // Dados mockados para a busca - 10 JOGADORES!
+  // Dados mockados para a busca
   mockPlayers: Player[] = [
     {
       id: 1,
       name: 'Neymar Jr',
-      age: 31,
+      age: 32,
       nationality: 'Brasileiro',
       position: 'Atacante',
       currentClub: 'Al Hilal',
       height: 175,
       weight: 68,
-      preferredFoot: 'Right',
+      preferredFoot: 'Direito',
       marketValue: 60000000,
+      shirtNumber: 10,
       clubHistory: [
-        { club: 'Al Hilal', period: '2023-Presente', games: 25, goals: 15, assists: 10 },
-        { club: 'PSG', period: '2017-2023', games: 173, goals: 118, assists: 77 }
+        { club: 'Santos', period: '2009-2013', games: 230, goals: 136, assists: 82 },
+        { club: 'Barcelona', period: '2013-2017', games: 186, goals: 105, assists: 76 },
+        { club: 'PSG', period: '2017-2023', games: 173, goals: 118, assists: 77 },
+        { club: 'Al Hilal', period: '2023-Presente', games: 25, goals: 15, assists: 10 }
       ]
     },
     {
@@ -67,26 +72,30 @@ export class AppComponent implements OnInit, OnDestroy {
       currentClub: 'Real Madrid',
       height: 176,
       weight: 73,
-      preferredFoot: 'Right',
+      preferredFoot: 'Direito',
       marketValue: 150000000,
+      shirtNumber: 7,
       clubHistory: [
+        { club: 'Flamengo', period: '2017-2018', games: 49, goals: 14, assists: 4 },
         { club: 'Real Madrid', period: '2018-Presente', games: 235, goals: 63, assists: 64 }
       ]
     },
     {
       id: 3,
       name: 'Casemiro',
-      age: 31,
+      age: 32,
       nationality: 'Brasileiro',
       position: 'Volante',
       currentClub: 'Manchester United',
       height: 185,
       weight: 84,
-      preferredFoot: 'Right',
+      preferredFoot: 'Direito',
       marketValue: 40000000,
+      shirtNumber: 18,
       clubHistory: [
-        { club: 'Manchester United', period: '2022-Presente', games: 51, goals: 7, assists: 3 },
-        { club: 'Real Madrid', period: '2013-2022', games: 336, goals: 31, assists: 29 }
+        { club: 'São Paulo', period: '2010-2013', games: 111, goals: 11, assists: 8 },
+        { club: 'Real Madrid', period: '2013-2022', games: 336, goals: 31, assists: 29 },
+        { club: 'Manchester United', period: '2022-Presente', games: 51, goals: 7, assists: 3 }
       ]
     },
     {
@@ -98,9 +107,12 @@ export class AppComponent implements OnInit, OnDestroy {
       currentClub: 'Liverpool',
       height: 193,
       weight: 91,
-      preferredFoot: 'Right',
+      preferredFoot: 'Direito',
       marketValue: 35000000,
+      shirtNumber: 1,
       clubHistory: [
+        { club: 'Internacional', period: '2013-2016', games: 100, goals: 0, assists: 0 },
+        { club: 'Roma', period: '2016-2018', games: 64, goals: 0, assists: 0 },
         { club: 'Liverpool', period: '2018-Presente', games: 232, goals: 1, assists: 0 }
       ]
     },
@@ -113,9 +125,11 @@ export class AppComponent implements OnInit, OnDestroy {
       currentClub: 'PSG',
       height: 178,
       weight: 73,
-      preferredFoot: 'Right',
+      preferredFoot: 'Direito',
       marketValue: 180000000,
+      shirtNumber: 7,
       clubHistory: [
+        { club: 'Monaco', period: '2015-2017', games: 60, goals: 27, assists: 16 },
         { club: 'PSG', period: '2017-Presente', games: 290, goals: 244, assists: 105 }
       ]
     },
@@ -128,84 +142,48 @@ export class AppComponent implements OnInit, OnDestroy {
       currentClub: 'Manchester City',
       height: 194,
       weight: 88,
-      preferredFoot: 'Left',
+      preferredFoot: 'Esquerdo',
       marketValue: 180000000,
+      shirtNumber: 9,
       clubHistory: [
+        { club: 'Molde', period: '2017-2019', games: 50, goals: 20, assists: 6 },
+        { club: 'Red Bull Salzburg', period: '2019-2020', games: 27, goals: 29, assists: 7 },
+        { club: 'Borussia Dortmund', period: '2020-2022', games: 89, goals: 86, assists: 23 },
         { club: 'Manchester City', period: '2022-Presente', games: 89, goals: 83, assists: 15 }
-      ]
-    },
-    {
-      id: 7,
-      name: 'Jude Bellingham',
-      age: 20,
-      nationality: 'Inglês',
-      position: 'Meio-Campo',
-      currentClub: 'Real Madrid',
-      height: 186,
-      weight: 75,
-      preferredFoot: 'Right',
-      marketValue: 120000000,
-      clubHistory: [
-        { club: 'Real Madrid', period: '2023-Presente', games: 45, goals: 23, assists: 12 }
-      ]
-    },
-    {
-      id: 8,
-      name: 'Ousmane Dembélé',
-      age: 26,
-      nationality: 'Francês',
-      position: 'Atacante',
-      currentClub: 'PSG',
-      height: 178,
-      weight: 67,
-      preferredFoot: 'Left',
-      marketValue: 80000000, // Atualizado para €80M
-      clubHistory: [
-        { club: 'PSG', period: '2023-Presente', games: 45, goals: 18, assists: 22 }
-      ]
-    },
-    {
-      id: 9,
-      name: 'Khvicha Kvaratskhelia',
-      age: 23,
-      nationality: 'Georgiano',
-      position: 'Atacante',
-      currentClub: 'PSG',
-      height: 183,
-      weight: 74,
-      preferredFoot: 'Right',
-      marketValue: 85000000,
-      clubHistory: [
-        { club: 'PSG', period: '2024-Presente', games: 15, goals: 9, assists: 7 }
-      ]
-    },
-    {
-      id: 10,
-      name: 'Bukayo Saka',
-      age: 22,
-      nationality: 'Inglês',
-      position: 'Atacante',
-      currentClub: 'Arsenal',
-      height: 178,
-      weight: 72,
-      preferredFoot: 'Left',
-      marketValue: 120000000,
-      clubHistory: [
-        { club: 'Arsenal', period: '2018-Presente', games: 225, goals: 58, assists: 55 }
       ]
     }
   ];
 
-  // Jogadores em destaque para a lista principal
-  featuredPlayers: Player[] = this.mockPlayers;
+  constructor(private router: Router) {}
+
+  // MÉTODO: Verificar se está na página home
+  isHomePage(): boolean {
+    return this.router.url === '/';
+  }
 
   ngOnInit(): void {
     this.startCarousel();
   }
 
-  // NOVO: Sistema de timing variável por slide
+  // MÉTODO: Buscar jogador por nome para o carrossel
+  getPlayerByName(playerName: string): Player {
+    const player = this.mockPlayers.find(p => p.name === playerName);
+    if (!player) {
+      return this.mockPlayers[0];
+    }
+    return player;
+  }
+
+  // MÉTODO: Redirecionamento inteligente do carrossel
+  selectPlayerFromCarousel(player: Player): void {
+    this.router.navigate(['/catalogo'], { 
+      state: { selectedPlayer: player } 
+    });
+  }
+
+  // Sistema de timing variável por slide
   getSlideDuration(slideIndex: number): number {
-    return slideIndex === 0 ? 15000 : 10000; // 15s para slide 0, 10s para outros
+    return slideIndex === 0 ? 15000 : 10000;
   }
 
   startCarousel(): void {
@@ -224,7 +202,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.restartCarouselWithNewTiming();
   }
 
-  // NOVO: Reiniciar carrossel com novo timing
+  // Reiniciar carrossel com novo timing
   private restartCarouselWithNewTiming(): void {
     if (this.carouselInterval) {
       clearInterval(this.carouselInterval);
@@ -255,9 +233,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   selectPlayer(player: Player): void {
-    console.log('Jogador selecionado:', player);
     this.searchTerm = player.name;
     this.filteredPlayers = [];
+    this.router.navigate(['/catalogo'], { 
+      state: { selectedPlayer: player } 
+    });
   }
 
   ngOnDestroy(): void {

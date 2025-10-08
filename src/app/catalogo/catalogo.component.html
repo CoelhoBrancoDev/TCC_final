@@ -1,0 +1,250 @@
+<div class="catalogo-container">
+  <!-- HEADER DO CATÁLOGO -->
+  <header class="catalogo-header">
+    <div class="header-top">
+      <!-- BOTÃO VOLTAR PARA HOME -->
+      <a routerLink="/" class="back-home-btn">
+        ← Voltar para Home
+      </a>
+      
+      <div class="header-center">
+        <h1>📋 Catálogo de Atletas</h1>
+        <p>Explore nosso banco de dados com 50 jogadores profissionais</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- SISTEMA DE BUSCA E FILTROS -->
+  <div class="filters-section">
+    <!-- BUSCA -->
+    <div class="search-container">
+      <div class="search-icon">🔍</div>
+      <input 
+        type="text" 
+        class="search-input" 
+        placeholder="Buscar por nome, clube, posição..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()">
+      
+      <!-- RESULTADOS DA BUSCA -->
+      <div class="search-results" *ngIf="searchTerm && searchResults.length > 0">
+        <div 
+          *ngFor="let player of searchResults" 
+          class="result-item"
+          (click)="selectPlayerFromSearch(player)">
+          <strong>{{ player.name }}</strong> - {{ player.position }} - {{ player.currentClub }}
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="filters-row">
+      <select [(ngModel)]="selectedPosition" (change)="applyFilters()" class="filter-select">
+        <option value="">Todas as Posições</option>
+        <option *ngFor="let position of getUniquePositions()" [value]="position">
+          {{ position }}
+        </option>
+      </select>
+
+      <select [(ngModel)]="selectedClub" (change)="applyFilters()" class="filter-select">
+        <option value="">Todos os Clubes</option>
+        <option *ngFor="let club of getUniqueClubs()" [value]="club">
+          {{ club }}
+        </option>
+      </select>
+
+      <select [(ngModel)]="selectedNationality" (change)="applyFilters()" class="filter-select">
+        <option value="">Todas as Nacionalidades</option>
+        <option *ngFor="let nationality of getUniqueNationalities()" [value]="nationality">
+          {{ nationality }}
+        </option>
+      </select>
+
+      <button class="clear-filters-btn" (click)="clearFilters()">
+        🗑️ Limpar Filtros
+      </button>
+    </div>
+
+    <!-- CONTADOR DE RESULTADOS -->
+    <div class="results-count">
+      {{ filteredPlayers.length }} de {{ players.length }} jogadores encontrados
+    </div>
+  </div>
+
+  <!-- GRID SIMPLES DE JOGADORES - BRASILEIROS PRIMEIRO -->
+  <div class="players-grid">
+    <div 
+      *ngFor="let player of filteredPlayers" 
+      class="player-card"
+      (click)="openPlayerModal(player)">
+      
+      <!-- AVATAR DO JOGADOR -->
+      <div class="player-avatar" [class]="getAvatarColor(player)">
+        <span class="avatar-icon">{{ getPlayerAvatar(player) }}</span>
+        <span class="avatar-initials">{{ getPlayerInitials(player) }}</span>
+      </div>
+
+      <!-- INFO BÁSICA -->
+      <div class="player-info">
+        <h3 class="player-name">{{ player.name }}</h3>
+        <p class="player-club">{{ player.currentClub }}</p>
+        <p class="player-position">{{ player.position }}</p>
+        <p class="player-value">{{ formatMarketValue(player.marketValue) }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESTADO VAZIO -->
+  <div *ngIf="filteredPlayers.length === 0" class="empty-state">
+    <div class="empty-icon">🔍</div>
+    <h3>Nenhum jogador encontrado</h3>
+    <p>Tente ajustar os filtros ou termos de busca</p>
+    <button class="clear-filters-btn" (click)="clearFilters()">
+      Limpar Filtros
+    </button>
+  </div>
+
+  <!-- MODAL DE DETALHES -->
+  <div *ngIf="selectedPlayer" class="modal-overlay" (click)="closePlayerModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      
+      <!-- HEADER DO MODAL -->
+      <div class="modal-header">
+        <div class="modal-avatar" [class]="getAvatarColor(selectedPlayer)">
+          <span class="avatar-icon">{{ getPlayerAvatar(selectedPlayer) }}</span>
+          <span class="avatar-initials">{{ getPlayerInitials(selectedPlayer) }}</span>
+        </div>
+        
+        <div class="modal-player-info">
+          <h2>{{ selectedPlayer.name }}</h2>
+          <p class="modal-club">{{ selectedPlayer.currentClub }}</p>
+          <p class="modal-value">{{ formatMarketValue(selectedPlayer.marketValue) }}</p>
+        </div>
+        
+        <button class="close-btn" (click)="closePlayerModal()">×</button>
+      </div>
+
+      <!-- ABAS DO MODAL -->
+      <div class="modal-tabs">
+        <button 
+          [class.active]="activeTab === 'detalhe'" 
+          (click)="setActiveTab('detalhe')"
+          class="tab-btn">
+          📋 Detalhe
+        </button>
+        <button 
+          [class.active]="activeTab === 'carreira'" 
+          (click)="setActiveTab('carreira')"
+          class="tab-btn">
+          🕐 Carreira
+        </button>
+        <button 
+          [class.active]="activeTab === 'estatisticas'" 
+          (click)="setActiveTab('estatisticas')"
+          class="tab-btn">
+          📊 Estatísticas
+        </button>
+      </div>
+
+      <!-- CONTEÚDO DAS ABAS -->
+      <div class="modal-body">
+        
+        <!-- ABA DETALHE -->
+        <div *ngIf="activeTab === 'detalhe'" class="tab-content detalhe-tab">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <span class="detail-label">Nacionalidade:</span>
+              <span class="detail-value">{{ selectedPlayer.nationality }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Idade:</span>
+              <span class="detail-value">{{ selectedPlayer.age }} anos</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Altura:</span>
+              <span class="detail-value">{{ selectedPlayer.height }}cm</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Peso:</span>
+              <span class="detail-value">{{ selectedPlayer.weight }}kg</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Pé Preferido:</span>
+              <span class="detail-value">{{ selectedPlayer.preferredFoot }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Posição:</span>
+              <span class="detail-value">{{ selectedPlayer.position }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Nº Camisa:</span>
+              <span class="detail-value">{{ selectedPlayer.shirtNumber }}</span>
+            </div>
+            <div class="detail-item highlight">
+              <span class="detail-label">Valor de Mercado:</span>
+              <span class="detail-value highlight-value">{{ formatMarketValue(selectedPlayer.marketValue) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ABA CARREIRA -->
+        <div *ngIf="activeTab === 'carreira'" class="tab-content carreira-tab">
+          <div class="timeline">
+            <div *ngFor="let history of selectedPlayer.clubHistory" class="timeline-item">
+              <div class="timeline-marker">🕐</div>
+              <div class="timeline-content">
+                <h4>{{ history.club }}</h4>
+                <p class="timeline-period">{{ history.period }}</p>
+                <p class="timeline-stats">
+                  {{ history.games }} jogos • {{ history.goals }} gols • {{ history.assists }} assist.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ABA ESTATÍSTICAS -->
+        <div *ngIf="activeTab === 'estatisticas'" class="tab-content estatisticas-tab">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <h4>Total na Carreira</h4>
+              <div class="stat-numbers">
+                <div class="stat-item">
+                  <span class="stat-value">{{ getTotalGames(selectedPlayer) }}</span>
+                  <span class="stat-label">Jogos</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-value">{{ getTotalGoals(selectedPlayer) }}</span>
+                  <span class="stat-label">Gols</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-value">{{ getTotalAssists(selectedPlayer) }}</span>
+                  <span class="stat-label">Assist.</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="stat-card">
+              <h4>Médias por Temporada</h4>
+              <div class="stat-numbers">
+                <div class="stat-item">
+                  <span class="stat-value">{{ getAverageGames(selectedPlayer) }}</span>
+                  <span class="stat-label">Jogos/ano</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-value">{{ getAverageGoals(selectedPlayer) }}</span>
+                  <span class="stat-label">Gols/ano</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-value">{{ getCareerYears(selectedPlayer) }}</span>
+                  <span class="stat-label">Anos carreira</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
