@@ -1,0 +1,197 @@
+<div class="dashboard-container">
+  <!-- HEADER -->
+  <header class="dashboard-header">
+    <div class="header-top">
+      <a routerLink="/" class="back-home-btn">
+        ← Voltar para Home
+      </a>
+    </div>
+    
+    <div class="header-center">
+      <h1>📊 Dashboard Analítico</h1>
+      <p>Análises avançadas e métricas dos Super Atletas</p>
+    </div>
+  </header>
+
+  <!-- CARDS DE MÉTRICAS PRINCIPAIS -->
+  <section class="metrics-section">
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-icon">👥</div>
+        <div class="metric-info">
+          <h3>{{ totalPlayers }}</h3>
+          <p>Atletas Monitorados</p>
+        </div>
+      </div>
+      
+      <div class="metric-card">
+        <div class="metric-icon">💰</div>
+        <div class="metric-info">
+          <h3>{{ formatMarketValue(totalValue) }}</h3>
+          <p>Valor Total</p>
+        </div>
+      </div>
+      
+      <div class="metric-card">
+        <div class="metric-icon">🇧🇷</div>
+        <div class="metric-info">
+          <h3>{{ brazilianPercentage }}%</h3>
+          <p>Jogadores Brasileiros</p>
+        </div>
+      </div>
+      
+      <div class="metric-card">
+        <div class="metric-icon">🌟</div>
+        <div class="metric-info">
+          <h3>{{ youngTalents }}</h3>
+          <p>Jovens Talentos</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOP PERFORMERS -->
+  <section class="top-performers-section">
+    <h2>⭐ Top Performers</h2>
+    
+    <div class="performers-grid">
+      <!-- ARTILHEIROS -->
+      <div class="performer-category">
+        <h3>🎯 Artilheiros</h3>
+        <div class="players-list">
+          <div *ngFor="let player of topScorers; let i = index" class="player-item">
+            <span class="rank">{{ i + 1 }}</span>
+            <span class="player-avatar">{{ getPlayerAvatar(player) }}</span>
+            <div class="player-details">
+              <strong>{{ player.name }}</strong>
+              <span>{{ player.currentClub }}</span>
+            </div>
+            <span class="player-stat">{{ getTotalGoals(player) }} gols</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ASSISTENTES -->
+      <div class="performer-category">
+        <h3>🅰️ Assistentes</h3>
+        <div class="players-list">
+          <div *ngFor="let player of topAssists; let i = index" class="player-item">
+            <span class="rank">{{ i + 1 }}</span>
+            <span class="player-avatar">{{ getPlayerAvatar(player) }}</span>
+            <div class="player-details">
+              <strong>{{ player.name }}</strong>
+              <span>{{ player.currentClub }}</span>
+            </div>
+            <span class="player-stat">{{ getTotalAssists(player) }} assists</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIS VALIOSOS -->
+      <div class="performer-category">
+        <h3>💎 Mais Valiosos</h3>
+        <div class="players-list">
+          <div *ngFor="let player of mostValuable; let i = index" class="player-item">
+            <span class="rank">{{ i + 1 }}</span>
+            <span class="player-avatar">{{ getPlayerAvatar(player) }}</span>
+            <div class="player-details">
+              <strong>{{ player.name }}</strong>
+              <span>{{ player.currentClub }}</span>
+            </div>
+            <span class="player-stat">{{ formatMarketValue(player.marketValue) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANÁLISE BRASILEIRA -->
+  <section class="brazilian-analysis" *ngIf="brazilianPlayers.length > 0">
+    <h2> Análise jogadores Brasileiros</h2>
+    
+    <div class="analysis-content">
+      <div class="brazilian-stats">
+        <div class="stat-item">
+          <span class="stat-value">{{ brazilianPlayers.length }}</span>
+          <span class="stat-label">Jogadores BR</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">{{ formatMarketValue(getBrazilianTotalValue()) }}</span>
+          <span class="stat-label">Valor Total</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">{{ getBrazilianAverageAge() }}</span>
+          <span class="stat-label">Idade Média</span>
+        </div>
+      </div>
+
+      <!-- TOP 5 BRASILEIROS -->
+      <div class="top-brazilian">
+        <h3>🏆 Top 5 Brasileiros Mais Valiosos</h3>
+        <div class="players-list">
+          <div *ngFor="let player of topBrazilian; let i = index" class="player-item featured">
+            <span class="rank">{{ i + 1 }}</span>
+            <span class="player-avatar">{{ getPlayerAvatar(player) }}</span>
+            <div class="player-details">
+              <strong>{{ player.name }}</strong>
+              <span>{{ player.currentClub }} • {{ player.position }}</span>
+            </div>
+            <span class="player-stat highlight">{{ formatMarketValue(player.marketValue) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISTRIBUIÇÕES -->
+  <section class="distributions-section">
+    <h2>📊 Distribuições</h2>
+    
+    <div class="distributions-grid">
+      <!-- POR POSIÇÃO -->
+      <div class="distribution-category">
+        <h3>⚽ Por Posição</h3>
+        <div class="distribution-list">
+          <div *ngFor="let item of positionDistribution" class="distribution-item">
+            <div class="distribution-header">
+              <span class="position-name">{{ item.name }}</span>
+              <span class="position-count">{{ item.count }} ({{ item.percentage }}%)</span>
+            </div>
+            <div class="distribution-bar">
+              <div class="bar-fill" [style.width.%]="item.percentage"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- POR NACIONALIDADE -->
+      <div class="distribution-category">
+        <h3>🌎 Por Nacionalidade</h3>
+        <div class="distribution-list">
+          <div *ngFor="let item of nationalityDistribution" class="distribution-item">
+            <div class="distribution-header">
+              <span class="nationality-name">{{ item.name }}</span>
+              <span class="nationality-count">{{ item.count }} ({{ item.percentage }}%)</span>
+            </div>
+            <div class="distribution-bar">
+              <div class="bar-fill" [style.width.%]="item.percentage" [class.highlight]="item.name.includes('Brasil')"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESUMO FINAL -->
+  <section class="summary-section">
+    <h2>📈 Resumo Executivo</h2>
+    <div class="summary-content">
+      <p>
+        Nossa base de dados possui <strong>{{ totalPlayers }} atletas</strong> com valor total de 
+        <strong>{{ formatMarketValue(totalValue) }}</strong>. 
+        <strong>{{ brazilianPercentage }}% são brasileiros</strong>, demonstrando forte foco no talento nacional. 
+        Destaque para <strong>{{ youngTalents }} jovens talentos</strong> com grande potencial de valorização.
+      </p>
+    </div>
+  </section>
+</div>
