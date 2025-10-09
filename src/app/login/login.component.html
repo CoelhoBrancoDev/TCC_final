@@ -1,0 +1,87 @@
+<div class="login-container">
+  <div class="login-card">
+    <!-- HEADER -->
+    <div class="login-header">
+      <div class="logo">🏆</div>
+      <h1>Super Atleta</h1>
+      <p>🔐 Acesso à Plataforma</p>
+    </div>
+
+    <!-- FORMULÁRIO -->
+    <form (ngSubmit)="onSubmit()" class="login-form">
+      
+      <!-- EMAIL -->
+      <div class="form-group">
+        <label for="email">📧 Email ou Usuário</label>
+        <input 
+          type="text" 
+          id="email"
+          [(ngModel)]="credentials.email" 
+          name="email"
+          placeholder="Digite seu email ou usuário"
+          required>
+      </div>
+
+      <!-- SENHA -->
+      <div class="form-group">
+        <label for="password">🔒 Senha</label>
+        <div class="password-input">
+          <input 
+            [type]="showPassword ? 'text' : 'password'" 
+            id="password"
+            [(ngModel)]="credentials.password" 
+            name="password"
+            placeholder="Digite sua senha"
+            required>
+          <button 
+            type="button" 
+            class="toggle-password"
+            (click)="togglePasswordVisibility()">
+            {{ showPassword ? '🙈' : '👁️' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- LEMBRAR DE MIM -->
+      <div class="remember-me">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="rememberMe" 
+            name="rememberMe">
+          <span class="checkmark"></span>
+          📋 Lembrar de mim
+        </label>
+      </div>
+
+      <!-- MENSAGEM DE ERRO -->
+      <div *ngIf="errorMessage" class="error-message">
+        ⚠️ {{ errorMessage }}
+      </div>
+
+      <!-- BOTÃO ENTRAR -->
+      <button 
+        type="submit" 
+        class="login-btn"
+        [disabled]="isLoading || !credentials.email || !credentials.password">
+        <span *ngIf="!isLoading"> Entrar</span>
+        <span *ngIf="isLoading">⏳ Entrando...</span>
+      </button>
+
+    </form>
+
+    <!-- LINKS ADICIONAIS -->
+    <div class="login-links">
+      <a href="#" class="link">🔗 Esqueci minha senha</a>
+      <a href="#" class="link">🔗 Criar nova conta</a>
+    </div>
+
+    <!-- ✅ REMOVIDA A SEÇÃO "ACESSAR COMO VISITANTE" -->
+
+    <!-- VOLTAR AO SITE (MANTIDO PARA CASO PRECISE) -->
+    <div class="back-to-site">
+      <a routerLink="/home" class="back-link">← Acessar demonstração</a>
+    </div>
+
+  </div>
+</div>

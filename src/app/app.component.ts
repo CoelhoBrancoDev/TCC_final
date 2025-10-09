@@ -158,7 +158,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // MÉTODO: Verificar se está na página home
   isHomePage(): boolean {
-    return this.router.url === '/';
+    return this.router.url === '/home';
   }
 
   ngOnInit(): void {
