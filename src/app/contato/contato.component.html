@@ -1,0 +1,147 @@
+<!-- contato.component.html -->
+<div class="contato-container">
+  <!-- HEADER -->
+  <header class="contato-header">
+    <div class="header-top">
+      <a routerLink="/" class="back-home-btn">
+        ← Voltar para Home
+      </a>
+    </div>
+    
+    <div class="header-center">
+      <h1>📞 Contato</h1>
+      <p>Entre em contato conosco - Teremos prazer em ajudar!</p>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="contato-content">
+    
+    <!-- FORMULÁRIO -->
+    <section class="form-section">
+      <h2>📩 Envie sua Mensagem</h2>
+      
+      <form (ngSubmit)="enviarFormulario()" class="contato-form">
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nome">Nome</label>
+            <input 
+              type="text" 
+              id="nome"
+              [(ngModel)]="contatoForm.nome" 
+              name="nome"
+              placeholder="Seu nome completo">
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input 
+              type="email" 
+              id="email"
+              [(ngModel)]="contatoForm.email" 
+              name="email"
+              placeholder="seu@email.com">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="telefone">Telefone</label>
+            <input 
+              type="tel" 
+              id="telefone"
+              [(ngModel)]="contatoForm.telefone" 
+              name="telefone"
+              placeholder="(00) 00000-0000">
+          </div>
+          
+          <div class="form-group">
+            <label for="assunto">Assunto</label>
+            <select 
+              id="assunto"
+              [(ngModel)]="contatoForm.assunto" 
+              name="assunto">
+              <option value="">Selecione um assunto</option>
+              <option *ngFor="let assunto of assuntos" [value]="assunto">
+                {{ assunto }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="mensagem">Mensagem</label>
+          <textarea 
+            id="mensagem"
+            [(ngModel)]="contatoForm.mensagem" 
+            name="mensagem"
+            placeholder="Digite sua mensagem aqui..."
+            rows="6"></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          📤 Enviar Mensagem
+        </button>
+
+      </form>
+    </section>
+
+    <!-- INFORMAÇÕES DE CONTATO -->
+    <section class="info-section">
+      <h2>📞 Outras Formas de Contato</h2>
+      
+      <div class="contact-methods">
+        
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div class="contact-info">
+            <h3>Email</h3>
+            <p>adrianomacielhsr@gmail.com</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">📱</div>
+          <div class="contact-info">
+            <h3>Telefone</h3>
+            <p>+55 (71) 98344-4746</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">🕒</div>
+          <div class="contact-info">
+            <h3>Horário de Atendimento</h3>
+            <p>Segunda a Sexta: 8h às 18h</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div class="contact-info">
+            <h3>Localização</h3>
+            <p>Salvador,Bahia, Brasil</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- REDES SOCIAIS -->
+    <section class="social-section">
+      <h2>🌐 Siga-nos nas Redes</h2>
+    
+      <div class="social-links">
+
+        <a href="https://www.facebook.com/" class="social-link"> Facebook</a>
+        <a href="https://www.instagram.com" class="social-link"> Instagram</a>
+        <a href="https://x.com/" class="social-link"> X</a>
+        <a href="https://www.linkedin.com/" class="social-link"> LinkedIn</a>
+        
+      </div>
+
+    </section>
+
+  </main>
+</div>
